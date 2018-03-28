@@ -1,52 +1,4236 @@
-# Prerequisites
-*.d
+#include<conio.h>
+#include<stdio.h>
+#include<fstream.h>
+#include<string.h>
+#include<stdlib.h>
+#include<ctype.h>
+class student
+{
+struct trans
+{
+char name[25];
+char char_certific[5];
+int id;
+int clas;
+char date[10];
+};
+struct stud
+{
+char name[25],dob[10];
+float father_income,mother_income,pert;
+int student_id;
+char mother[25],father[25],add[50],contact[25],father_occp[25],domicile[25],
+school_name[25],tc[5],religion[25],disease[25],blood_group[5];
+};
+public:
+void admission();
+void transfer();
+void student_search();
+void student_submenu();
+};
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+class exam
+{
+struct mark
+{
+int mark_id,clas;
+float hindi,eng,geog,phy,chem,bio,com,acc,
+comp,eco,hist,social,math,art,science,total;
+};
+public:
+void mark_exam();
+};
 
-# Linker output
-*.ilk
-*.map
-*.exp
+class account
+{
+struct fine
+{
+int fine_id;
+char type[25];
+float fine;
+};
+struct salary
+{
+float basic,da,hr,mc;
+float pa;
+int sal_id;
+char teach[25];
+};
+struct fee
+{
+int fee_id;
+float misc,tuition,bus,magzine;
+float tour,sport;
+};
+public:
+void salary_account();
+void fee_account();
+void fine_account();
+void revenue_account();
+void account_submenu();
+};
 
-# Precompiled Headers
-*.gch
-*.pch
+class miscell
+{
+struct sport
+{
+int sport_id;
+char game[25],head[25],sub_head[25],captain[25],vice[25],other[50],level[25],
+award[25],position[5];
+};
+struct teacher
+{
+int teach_id;
+char name[25],add[50],phone[25],qualific[25],subject[25],taught[25],
+clas_teach[25],activity[25];
+};
+struct staff
+{
+int staff_id;
+char name[25],add[50],phone[25],retired[10],job[25],post[25];
+};
+public:
+void misc_submenu();
+void teacher_member();
+void sport_member();
+void staff_member();
+};
+class menu
+{
+static int time;
+public:
+void start();
+void password();
+static void  times();
+};
+int menu::time=0;
+//------------------------------------------------STUDENT CLASS FUNCTION---
+//=============ADMISSION====================================================
+void student::admission()
+{
+stud stu;
+while(1)
+{
+clrscr();
+char ans='n';
+int last=0,numb=0,id=0,flag=0;
+fstream file,file1,temp;
+int ch;
+cout<<"1.New Student"<<endl<<"2.Student Update"<<endl<<"3.Student Delete"
+<<endl<<"4.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	file.open("admission.dat",ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&stu,sizeof(stud)))
+	{
+	last=1;
+	id=stu.student_id;
+	}
+	if(last==0)
+	{
+	id=1;
+	}
+	else
+	{
+	id=id+1;
+	}
+	file.close();
+	file1.open("admission.dat",ios::app | ios::binary);
+	stu.student_id=id;
+	cout<<"Student ID                   ::";
+	cout<<stu.student_id;
+	cout<<"\nStudent Name               ::";
+	fflush(stdin);
+	gets(stu.name);
+	cout<<"\nFather Name                ::";
+	fflush(stdin);
+	gets(stu.father);
+	cout<<"\nMother Name                ::";
+	fflush(stdin);
+	gets(stu.mother);
+	cout<<"\nAddress                    ::";
+	fflush(stdin);
+	gets(stu.add);
+	cout<<"\nContact No. Parent/Guardian::";
+	fflush(stdin);
+	gets(stu.contact);
+	cout<<"\nFather Occupation          ::";
+	fflush(stdin);
+	gets(stu.father_occp);
+	cout<<"\nFather Income              ::";
+	fflush(stdin);
+	cin>>stu.father_income;
+	cout<<"\nMother Income              ::";
+	fflush(stdin);
+	cin>>stu.mother_income;
+	cout<<"\nBirth certificate /state   ::";
+	fflush(stdin);
+	gets(stu.domicile);
+	cout<<"\nOld School                 ::";
+	fflush(stdin);
+	gets(stu.school_name);
+	cout<<"\nMarks/Percentage           ::";
+	fflush(stdin);
+	cin>>stu.pert;
+	cout<<"\nTC (taken from school)[y|n]::";
+	fflush(stdin);
+	gets(stu.tc);
+	cout<<"\nReligion                   ::";
+	fflush(stdin);
+	gets(stu.religion);
+	cout<<"\nDisease student suffering  ::";
+	fflush(stdin);
+	gets(stu.disease);
+	cout<<"\nBlood group	            ::";
+	fflush(stdin);
+	gets(stu.blood_group);
+	cout<<"\nDate of birth [dd/mm/yyyy] ::";
+	gets(stu.dob);
+	file1.write((char*)&stu,sizeof(stud));
+	file1.close();
+	break;
+case 2:
+	clrscr();
+	cout<<"Enter the student Identity Number:: ";
+	cin>>id;
+	file.open("admission.dat",ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&stu,sizeof(stud)))
+	{
+	if(stu.student_id==id)
+		{
+		flag=1;
+	cout<<endl<<"1.Student Id                         ::"<<stu.student_id;
+	cout<<endl<<"2.Student Name                       ::"<<stu.name;
+	cout<<endl<<"3.Date of Birth                      ::"<<stu.dob;
+	cout<<endl<<"4.Father Name                        ::"<<stu.father;
+	cout<<endl<<"5.Mother Name                        ::"<<stu.mother;
+	cout<<endl<<"6.Address                            ::"<<stu.add;
+	cout<<endl<<"7.Contact                            ::"<<stu.contact;
+	cout<<endl<<"8.Father Occupation                  ::"<<stu.father_occp;
+	cout<<endl<<"9.Father Income                      ::"<<stu.father_income;
+	cout<<endl<<"10.Mother Income                     ::"<<stu.mother_income;
+	cout<<endl<<"11.State                             ::"<<stu.domicile;
+	cout<<endl<<"12.Old School Name                   ::"<<stu.school_name;
+	cout<<endl<<"13.Percentage                        ::"<<stu.pert;
+	cout<<endl<<"14.Transfer(still studying in school)::"<<stu.tc;
+	cout<<endl<<"15.Religion                          ::"<<stu.religion;
+	cout<<endl<<"16.Disease                           ::"<<stu.disease;
+	cout<<endl<<"17.Blood Group                       ::"<<stu.blood_group;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		fflush(stdin);
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"New Student Name          ::";
+		gets(stu.name);
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Date Of Birth         ::";
+		gets(stu.dob);
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New Father's Name          ::";
+		gets(stu.father);
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Mother's Name          ::";
+		gets(stu.mother);
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Address                ::";
+		gets(stu.add);
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Contact                ::";
+		gets(stu.contact);
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New Father Occupation     ::";
+		gets(stu.father_occp);
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Father Income          ::";
+		cin>>stu.father_income;
+		}
+		else if(numb==10)
+		{
+		cout<<endl<<"New Mother Income          ::";
+		cin>>stu.mother_income;
+		}
+		else if(numb==11)
+		{
+		cout<<endl<<"New Domicile               ::";
+		gets(stu.domicile);
+		}
+		else if(numb==12)
+		{
+		cout<<endl<<"New Old School Name        ::";
+		gets(stu.school_name);
+		}
+		else if(numb==13)
+		{
+		cout<<endl<<"New Percentage             ::";
+		cin>>stu.pert;
+		}
+		else if(numb==14)
+		{
+		cout<<endl<<"Sorry cant'n be changed    ::";
+		cout<<endl<<"Give student TC or Expel   ::";
+		}
+		else if(numb==15)
+		{
+		cout<<endl<<"New Religion               ::";
+		gets(stu.religion);
+		}
+		else if(numb==16)
+		{
+		cout<<endl<<"New Disease                ::";
+		gets(stu.disease);
+		}
+		else if(numb==17)
+		{
+		cout<<endl<<"New Blood group            ::";
+		gets(stu.blood_group);
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+		}while(ans=='y');
+		file1.write((char*)&stu,sizeof(stud));
+		}
+		else
+		{
+		file1.write((char*)&stu,sizeof(stud));
+	}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("admission.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&stu,sizeof(stud)))
+	{
+	file1.write((char*)&stu,sizeof(stud));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	break;
+case 3:
+	clrscr();
+	file.open("admission.dat",ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the student Identity Number:: ";
+	cin>>id;
+	while(file.read((char*)&stu,sizeof(stud)))
+	{
+		if(stu.student_id==id)
+		{
+			cout<<"Record removed";
+			flag=1;
+		}
+		else
+		{
+			file1.write((char*)&stu,sizeof(stud));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	}
+	else
+	{
+	file.open("admission.dat",ios::out|ios::binary);
+	temp.open("temp.dat",ios::in|ios::binary);
+	temp.seekg(0,ios::beg);
+		 while(temp.read((char*)&stu,sizeof(stud)))
+		 {
+		   file.write((char*)&stu,sizeof(stud));
+		 }
+		 file.close();
+		 temp.close();
+		remove("temp.dat");
+	}
+	getch();
+	break;
+case 4:
+	this->student_submenu();
+	break;
+default:
+	cout<<"\nWrong Choice";
+	getch();
+	break;
+}
+}
+}
+//=====================TC ADMISSION========================================
+void student::transfer()
+{
+stud stu;
+trans obj;
+while(1)
+{
+clrscr();
+char ans='n';
+int numb=0,id=0,flag=0,already=0;
+fstream file,file2,temp1,file1,temp;
+int ch;
+cout<<"1.Student TC"<<endl<<"2.TC Update"<<endl<<"3.TC Delete"
+<<endl<<"4.TC View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	file1.open("admission.dat",ios::in | ios::binary);
+	cout<<"Enter Student ID           ::";
+	cin>>id;
+	while(file1.read((char*)&stu,sizeof(stud)))
+	{
+		if(id==stu.student_id)
+		{
+		flag=1;
+		if(strcmp(stu.tc,"y")==0)
+		{
+		already=1;
+		}
+		}
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+	}
+	file1.close();
+	if(already==0)
+	{
+	obj.id=id;
+	file.open("tc.dat",ios::app | ios::binary);
+	if(flag==1)
+	{
+	cout<<"Enter Student Name         ::";
+	gets(obj.name);
+	cout<<"Class                      ::";
+	cin>>obj.clas;
+	cout<<"Character Certificate [y/n]::";
+	gets(obj.char_certific);
+	cout<<"Date [dd/mm/yyyy]          ::";
+	gets(obj.date);
+	file.write((char*)&obj,sizeof(trans));
+	file.close();
+	file.open("admission.dat",ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&stu,sizeof(stud)))
+	{
+		if(stu.student_id==id)
+		{
+		strcpy(stu.tc,"y");
+		file1.write((char*)&stu,sizeof(stud));
+		}
+		else
+		{
+		file1.write((char*)&stu,sizeof(stud));
+		}
+	}
+	file.close();
+	file1.close();
+	file.open("admission.dat",ios::out|ios::binary);
+	temp.open("temp.dat",ios::in|ios::binary);
+	temp.seekg(0,ios::beg);
+		 while(temp.read((char*)&stu,sizeof(stud)))
+		 {
+		   file.write((char*)&stu,sizeof(stud));
+		 }
+		 file.close();
+		 temp.close();
+	remove("temp.dat");
+	}
+	else
+	{
+	cout<<"\n\n NO SUCH ID";
+	getch();
+	}
+	}
+	else
+	{
+	cout<<"\n\n Already TC or Expeled  ";
+	getch();
+	}
+	break;
+case 2:
+	clrscr();
+	file.open("tc.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Student id      ::";
+	cin>>id;
+	while(file.read((char*)&obj,sizeof(trans)))
+	{
+		if(id==obj.id)
+		{
+		flag=1;
+	cout<<endl<<"1.Student Id           ::"<<obj.id;
+	cout<<endl<<"2.Student Name         ::"<<obj.name;
+	cout<<endl<<"3.Class                ::"<<obj.clas;
+	cout<<endl<<"4.Date of TC(given)    ::"<<obj.date;
+	cout<<endl<<"5.Character certificate::"<<obj.char_certific;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		fflush(stdin);
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"New Student Name          ::";
+		gets(obj.name);
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Class                  ::";
+		cin>>obj.clas;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New Date Of TC            ::";
+		gets(obj.date);
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Character certificate given (y/n)::";
+		gets(obj.char_certific);
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+		}while(ans=='y');
+		file1.write((char*)&obj,sizeof(trans));
+		}
+		else
+		{
+		file1.write((char*)&obj,sizeof(trans));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("tc.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&obj,sizeof(trans)))
+	{
+	file1.write((char*)&obj,sizeof(trans));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	break;
+case 3:
+	clrscr();
+	file.open("tc.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Student id      ::";
+	cin>>id;
+	while(file.read((char*)&obj,sizeof(trans)))
+	{
+		if(id==obj.id)
+		{
+		flag=1;
+		cout<<"\n\n Record deleted";
+		file2.open("admission.dat",ios::in | ios::binary);
+		temp.open("temp1.dat",ios::out | ios::binary);
+		while(file2.read((char*)&stu,sizeof(stud)))
+		{
+			if(id==stu.student_id)
+			{
+			strcpy(stu.tc,"n");
+			temp.write((char*)&stu,sizeof(stud));
+			}
+			else
+			{
+			temp.write((char*)&stu,sizeof(stud));
+			}
+		}
+		}
+		else
+		{
+		file1.write((char*)&obj,sizeof(trans));
+		}
+	}
+	file.close();
+	file1.close();
+	file2.close();
+	temp.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("tc.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&obj,sizeof(trans)))
+	{
+	file1.write((char*)&obj,sizeof(trans));
+	}
+	file.close();
+	file1.close();
+	file2.open("admission.dat",ios::out | ios::binary);
+	temp.open("temp1.dat",ios::in | ios::binary);
+	while(temp.read((char*)&stu,sizeof(stud)))
+	{
+	file2.write((char*)&stu,sizeof(stud));
+	}
+	file2.close();
+	temp.close();
+	remove("temp1.dat");
+	remove("temp.dat");
+	}
+	getch();
+	break;
+case 4:
+	clrscr();
+	file.open("tc.dat", ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Student id      ::";
+	cin>>id;
+	while(file.read((char*)&obj,sizeof(trans)))
+	{
+		if(id==obj.id)
+		{
+		flag=1;
+	cout<<endl<<"Student Id           ::"<<obj.id;
+	cout<<endl<<"Student Name         ::"<<obj.name;
+	cout<<endl<<"Class                ::"<<obj.clas;
+	cout<<endl<<"Date of TC(given)    ::"<<obj.date;
+	cout<<endl<<"Character certificate::"<<obj.char_certific;
+		}
+	}
+	file.close();
+	if(flag==0)
+	{
+	cout<<"\n\nRecord not found";
+	}
+	getch();
+	break;
+case 5:
+	this->student_submenu();
+	break;
+default:
+	cout<<"\n\nWrong Choice::";
+	break;
+}
+}
+}
+//=================STUDENT SEARCH==========================================
+void student::student_search()
+{
+stud stu;
+fstream file;
+int id=0,flag=0;
+clrscr();
+file.open("admission.dat",ios::in | ios::binary);
+file.seekg(0,ios::beg);
+cout<<"Enter the student Identity Number::";
+cin>>id;
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+while(file.read((char*)&stu,sizeof(stud)))
+{
+	if(stu.student_id==id)
+	{
+	flag=1;
+cout<<endl<<"Student Id           ::"<<stu.student_id;
+cout<<endl<<"Student Name         ::"<<stu.name;
+cout<<endl<<"Date of Birth        ::"<<stu.dob;
+cout<<endl<<"Father Name          ::"<<stu.father;
+cout<<endl<<"Mother Name          ::"<<stu.mother;
+cout<<endl<<"Address Parent       ::"<<stu.add;
+cout<<endl<<"Contact              ::"<<stu.contact;
+cout<<endl<<"Father Occupation    ::"<<stu.father_occp;
+cout<<endl<<"Father Income        ::"<<stu.father_income;
+cout<<endl<<"Mother Income        ::"<<stu.mother_income;
+cout<<endl<<"State                ::"<<stu.domicile;
+cout<<endl<<"Old School Name      ::"<<stu.school_name;
+cout<<endl<<"Percentage           ::"<<stu.pert;
+cout<<endl<<"Transfer             ::"<<stu.tc;
+cout<<endl<<"Religion             ::"<<stu.religion;
+cout<<endl<<"Disease              ::"<<stu.disease;
+cout<<endl<<"Blood Group          ::"<<stu.blood_group;
+	}
+}
+if(flag==0)
+{
+cout<<"No such record";
+}
+file.close();
+}
+//------------------------------------------------EXAMINATION CLASS----------
+//====================MARKS==================================================
+void exam::mark_exam()
+{
+mark mar;
+while(1)
+{
+clrscr();
+char ans='n',filename[25];
+int id=0,numb=0,flag=0,last=0,ch=0,choice=0;
+fstream file,temp,file1;
+cout<<"1.Enter Student Marks"<<endl<<"2.Enter Student Marks Update"<<endl
+<<"3.Student Marks Delete"<<endl<<"4.Student Marks View"<<endl
+<<"5.View Class Marks"<<endl<<"6.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	student::stud st;
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with class number eg(c2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+       cout<<"\nEnter the class::";
+       cin>>choice;
+       if(choice>=1 && choice<6)
+       {
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+		do
+		{
+		clrscr();
+		flag=0;
+		last=0;
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		file1.open("admission.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+		if(flag==1)
+		{
+		     temp.open(filename,ios::in |ios::binary);
+		     temp.seekg(0,ios::beg);
+			while(temp.read((char*)&mar,sizeof(exam::mark)))
+			{
+				if(id==mar.mark_id)
+				{
+				last=1;
+				}
+			}
+		       temp.close();
+			if(last==0)
+			{
+			file.open(filename,ios::app | ios::binary);
+			mar.mark_id=id;
+			mar.clas=choice;
+			cout<<"\nEnter Hindi Marks     ::";
+			cin>>mar.hindi;
+			cout<<"\nEnter English Marks   ::";
+			cin>>mar.eng;
+			cout<<"\nEnter Science Marks   ::";
+			cin>>mar.science;
+			cout<<"\nEnter Social Marks    ::";
+			cin>>mar.social;
+			cout<<"\nEnter Maths Marks     ::";
+			cin>>mar.math;
+			cout<<"\nTotal Marks           ::";
+			mar.total=mar.hindi+mar.eng+mar.science+mar.social
+			+mar.math;
+			cout<<mar.total;
+			mar.geog=0,mar.phy=0,mar.chem=0,mar.bio=0,mar.com=0,
+			mar.eco=0,mar.hist=0,mar.art=0,mar.comp=0,mar.acc=0;
+			file.write((char*)&mar,sizeof(exam::mark));
+			file.close();
+			}
+			else
+			{
+			cout<<"\n\n Already Exist";
+			}
+		}
+		else
+		{
+		cout<<"\n\n NO SUCH ID";
+		}
+		cout<<"\n\n Want to enter more marks::";
+		ans=getche();
+		}while(ans=='y');
+       }
+       else if(choice>=6 && choice<9)
+       {
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+		do
+		{
+		clrscr();
+		flag=0;
+		last=0;
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		file1.open("admission.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+		cout<<st.student_id;
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+		if(flag==1)
+		{
+		     temp.open(filename,ios::in |ios::binary);
+		     temp.seekg(0,ios::beg);
+			while(temp.read((char*)&mar,sizeof(exam::mark)))
+			{
+				if(id==mar.mark_id)
+				{
+				last=1;
+				}
+			}
+		       temp.close();
+			if(last==1)
+			{
+			file.open(filename,ios::app | ios::binary);
+			mar.mark_id=id;
+			mar.clas=choice;
+			cout<<"\nEnter Hindi Marks     ::";
+			cin>>mar.hindi;
+			cout<<"\nEnter English Marks   ::";
+			cin>>mar.eng;
+			cout<<"\nEnter Physics Marks   ::";
+			cin>>mar.phy;
+			cout<<"\nEnter Chemistry Marks ::";
+			cin>>mar.chem;
+			cout<<"\nEnter Biology Marks   ::";
+			cin>>mar.bio;
+			cout<<"\nEnter History Marks   ::";
+			cin>>mar.hist;
+			cout<<"\nEnter Geography Marks ::";
+			cin>>mar.geog;
+			cout<<"\nEnter Maths Marks     ::";
+			cin>>mar.math;
+			cout<<"\nTotal Marks           ::";
+			mar.total=mar.hindi+mar.eng+mar.phy+mar.chem
+			+mar.bio+mar.hist+mar.geog+mar.math;
+			cout<<mar.total;
+			mar.com=0,mar.eco=0,mar.hist=0,mar.art=0,mar.comp=0
+			,mar.acc=0;
+			file.write((char*)&mar,sizeof(exam::mark));
+			file.close();
+			}
+			else
+			{
+			cout<<"\n\n Already Exist";
+			}
+		}
+		else
+		{
+		cout<<"\n\n NO SUCH ID";
+		}
+		cout<<"\n\n Want to enter more marks::";
+		ans=getche();
+		}while(ans=='y');
+       }
+       else if(choice>=9 && choice<11)
+       {
+	   cout<<"\n1.COMPUTER CLASS";
+	   cout<<"\n2.ECONOMICS CLASS";
+	   cout<<"\n\nEnter your choice";
+	   cin>>numb;
+	   if(numb==1)
+	   {
+		do
+		{
+		clrscr();
+		flag=0;
+		last=0;
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		file1.open("admission.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+		cout<<st.student_id;
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+		if(flag==1)
+		{
+		     temp.open(filename,ios::in |ios::binary);
+		     temp.seekg(0,ios::beg);
+			while(temp.read((char*)&mar,sizeof(exam::mark)))
+			{
+				if(id==mar.mark_id)
+				{
+				last=1;
+				}
+			}
+		       temp.close();
+			if(last==0)
+			{
+			file.open(filename,ios::app | ios::binary);
+			mar.mark_id=id;
+			mar.clas=choice;
+			cout<<"\nEnter Hindi Marks     ::";
+			cin>>mar.hindi;
+			cout<<"\nEnter English Marks   ::";
+			cin>>mar.eng;
+			cout<<"\nEnter Physics Marks   ::";
+			cin>>mar.phy;
+			cout<<"\nEnter Chemistry Marks ::";
+			cin>>mar.chem;
+			cout<<"\nEnter Biology Marks   ::";
+			cin>>mar.bio;
+			cout<<"\nEnter History Marks   ::";
+			cin>>mar.hist;
+			cout<<"\nEnter Geography Marks ::";
+			cin>>mar.geog;
+			cout<<"\nEnter Maths Marks     ::";
+			cin>>mar.math;
+			cout<<"Enter Computer Marks    ::";
+			cin>>mar.comp;
+			cout<<"\nTotal Marks           ::";
+			mar.total=mar.hindi+mar.eng+mar.phy+mar.chem
+			+mar.bio+mar.hist+mar.geog+mar.math+mar.comp;
+			cout<<mar.total;
+			mar.com=0,mar.eco=0,mar.hist=0,mar.art=0,mar.acc=0;
+			file.write((char*)&mar,sizeof(exam::mark));
+			file.close();
+			}
+			else
+			{
+			cout<<"\n\n Already Exist";
+			}
+		}
+		else
+		{
+		cout<<"\n\n NO SUCH ID";
+		}
+		cout<<"\n\n Want to enter more marks::";
+		ans=getche();
+		}while(ans=='y');
+       }
+       else if(numb==2)
+       {
+		do
+		{
+		clrscr();
+		flag=0;
+		last=0;
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		file1.open("admission.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+		cout<<st.student_id;
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+		if(flag==1)
+		{
+		     temp.open(filename,ios::in |ios::binary);
+		     temp.seekg(0,ios::beg);
+			while(temp.read((char*)&mar,sizeof(exam::mark)))
+			{
+				if(id==mar.mark_id)
+				{
+				last=1;
+				}
+			}
+		       temp.close();
+
+			if(last==0)
+			{
+			file.open(filename,ios::app | ios::binary);
+			mar.mark_id=id;
+			mar.clas=choice;
+			cout<<"\nEnter Hindi Marks     ::";
+			cin>>mar.hindi;
+			cout<<"\nEnter English Marks   ::";
+			cin>>mar.eng;
+			cout<<"\nEnter Physics Marks   ::";
+			cin>>mar.phy;
+			cout<<"\nEnter Chemistry Marks ::";
+			cin>>mar.chem;
+			cout<<"\nEnter Biology Marks   ::";
+			cin>>mar.bio;
+			cout<<"\nEnter History Marks   ::";
+			cin>>mar.hist;
+			cout<<"\nEnter Geography Marks ::";
+			cin>>mar.geog;
+			cout<<"\nEnter Maths Marks     ::";
+			cin>>mar.math;
+			cout<<"Enter Economics Marks   ::";
+			cin>>mar.eco;
+			cout<<"\nTotal Marks           ::";
+			mar.total=mar.hindi+mar.eng+mar.phy+mar.chem
+			+mar.bio+mar.hist+mar.geog+mar.math+mar.eco;
+			cout<<mar.total;
+			mar.com=0,mar.comp=0,mar.hist=0,mar.art=0,mar.acc=0;
+			file.write((char*)&mar,sizeof(exam::mark));
+			file.close();
+			}
+			else
+			{
+			cout<<"\n\n Already Exist";
+			}
+		}
+		else
+		{
+		cout<<"\n\n NO SUCH ID";
+		}
+		cout<<"\n\n Want to enter more marks::";
+		ans=getche();
+		}while(ans=='y');
+
+       }
+       else
+       {
+       cout<<"\n\n\n Wrong choice";
+       }
+       }
+       else if(choice>=11 && choice<=12)
+       {
+		cout<<"\nSCIENCE SECTION";
+		cout<<"\nECONOMICS SECTION";
+		cout<<"\n\n Enter your choice";
+		cin>>numb;
+	  if(numb==1)
+	  {
+			do
+		{   clrscr();
+		flag=0;
+		last=0;
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		file1.open("admission.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+		cout<<st.student_id;
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+		if(flag==1)
+		{
+		     temp.open(filename,ios::in |ios::binary);
+		     temp.seekg(0,ios::beg);
+			while(temp.read((char*)&mar,sizeof(exam::mark)))
+			{
+				if(id==mar.mark_id)
+				{
+				last=1;
+				}
+			}
+		       temp.close();
+
+			if(last==0)
+			{
+			file.open(filename,ios::app | ios::binary);
+			mar.mark_id=id;
+			mar.clas=choice;
+			cout<<"\nEnter Hindi Marks     ::";
+			cin>>mar.hindi;
+			cout<<"\nEnter English Marks   ::";
+			cin>>mar.eng;
+			cout<<"\nEnter Physics Marks   ::";
+			cin>>mar.phy;
+			cout<<"\nEnter Chemistry Marks ::";
+			cin>>mar.chem;
+			cout<<"\nEnter Biology Marks   ::";
+			cin>>mar.bio;
+			cout<<"\nEnter Computer Marks  ::";
+			cin>>mar.comp;
+			cout<<"\nEnter Maths Marks     ::";
+			cin>>mar.math;
+			cout<<"\nTotal Marks           ::";
+			mar.total=mar.hindi+mar.eng+mar.phy+mar.chem+
+			mar.bio+mar.comp+mar.math;
+			cout<<mar.total;
+			mar.geog=0,mar.social=0,mar.com=0,mar.science=0,
+			mar.eco=0,mar.hist=0,mar.art=0,mar.acc=0;
+			file.write((char*)&mar,sizeof(exam::mark));
+			file.close();
+			}
+			else
+			{
+			cout<<"\n\n Already Exist";
+			}
+		}
+		else
+		{
+		cout<<"\n\n NO SUCH ID";
+		}
+		cout<<"\n\n Want to enter more marks::";
+		ans=getche();
+		}while(ans=='y');
+       }
+       else if(numb==2)
+       {
+		do
+		{
+		clrscr();
+		flag=0;
+		last=0;
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		file1.open("admission.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+		cout<<st.student_id;
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+		if(flag==1)
+		{
+		     temp.open(filename,ios::in |ios::binary);
+		     temp.seekg(0,ios::beg);
+			while(temp.read((char*)&mar,sizeof(exam::mark)))
+			{
+				if(id==mar.mark_id)
+				{
+				last=1;
+				}
+			}
+		       temp.close();
+
+			if(last==0)
+			{
+			file.open(filename,ios::app | ios::binary);
+			mar.mark_id=id;
+			mar.clas=choice;
+			cout<<"\nEnter Hindi Marks     ::";
+			cin>>mar.hindi;
+			cout<<"\nEnter English Marks   ::";
+			cin>>mar.eng;
+			cout<<"\nEnter Commerce Marks  ::";
+			cin>>mar.com;
+			cout<<"\nEnter Economics Marks ::";
+			cin>>mar.eco;
+			cout<<"\nEnter Art Marks       ::";
+			cin>>mar.art;
+			cout<<"\nEnter Account Marks   ::";
+			cin>>mar.art;
+			cout<<"\nEnter Computer Marks  ::";
+			cin>>mar.comp;
+			cout<<"\nEnter Maths Marks     ::";
+			cin>>mar.math;
+			cout<<"\nTotal Marks           ::";
+			mar.total=mar.hindi+mar.eng+mar.com+mar.eco+
+			mar.acc+mar.comp+mar.math+mar.art;
+			cout<<mar.total;
+			mar.geog=0,mar.social=0,mar.bio=0,mar.chem=0,mar.phy=0
+			,mar.science=0,mar.hist=0;
+			file.write((char*)&mar,sizeof(exam::mark));
+			file.close();
+			}
+			else
+			{
+			cout<<"\n\n Already Exist";
+			}
+		}
+		else
+		{
+		cout<<"\n\n NO SUCH ID";
+		}
+		cout<<"\n\n Want to enter more marks::";
+		ans=getche();
+		}while(ans=='y');
+
+       }
+       else
+       {
+       cout<<"\n\n Wrong choice";
+       }
+       }
+       else
+       {
+       cout<<"\n\nWrong choice";
+       }
+	getch();
+	break;
+case 2:
+	clrscr();
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with class number eg(c2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+if(!file)
+{
+cout<<"\nSorry Wrong File name is given";
+}
+else
+{
+       cout<<"\nEnter the class::";
+       cin>>choice;
+       if(choice>=1 && choice<6)
+       {
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+	   while(file.read((char*)&mar,sizeof(exam::mark)))
+	   {
+		if(id==mar.mark_id)
+		{
+		flag=1;
+	cout<<"\n1.Student ID              ::"<<mar.mark_id;
+	cout<<"\n2.Student Class           ::"<<mar.clas;
+	cout<<"\n3.Student Hindi Marks     ::"<<mar.hindi;
+	cout<<"\n4.Student English Marks   ::"<<mar.eng;
+	cout<<"\n5.Student Science Marks   ::"<<mar.science;
+	cout<<"\n6.Student Social Marks    ::"<<mar.social;
+	cout<<"\n7.Student Maths Marks     ::"<<mar.math;
+	cout<<"\nTotal Marks               ::";
+	mar.total=mar.hindi+mar.eng+mar.science+mar.social
+	+mar.math;
+	cout<<mar.total;
+	mar.geog=0,mar.phy=0,mar.chem=0,mar.bio=0,mar.com=0,
+	mar.eco=0,mar.hist=0,mar.art=0,mar.comp=0,mar.acc=0;
+			do
+			{
+			cout<<"\n\nEnter the number written in front feild ::";
+			cin>>numb;
+			if(numb==1)
+			{
+			cout<<endl<<"Sorry It can't be changed ::";
+			}
+			else if(numb==2)
+			{
+			cout<<endl<<"Sorry It can't be changed ::";
+			}
+			else if(numb==3)
+			{
+			cout<<endl<<"New Hindi Marks           ::";
+			cin>>mar.hindi;
+			}
+			else if(numb==4)
+			{
+			cout<<endl<<"New English Marks         ::";
+			cin>>mar.eng;
+			}
+			else if(numb==5)
+			{
+			cout<<endl<<"New Science Marks         ::";
+			cin>>mar.science;
+			}
+			else if(numb==6)
+			{
+			cout<<endl<<"New Social Marks          ::";
+			cin>>mar.social;
+			}
+			else if(numb==7)
+			{
+			cout<<endl<<"New Maths Marks           ::";
+			cin>>mar.math;
+			}
+			else
+			{
+			cout<<"\n\nWrong Number choice";
+			}
+			cout<<"\n\nWant to change any other(y|n)::";
+			ans=getche();;
+			}while(ans=='y');
+			temp.write((char*)&mar,sizeof(exam::mark));
+			}
+			else
+			{
+			temp.write((char*)&mar,sizeof(exam::mark));
+			}
+	   }
+	file.close();
+	temp.close();
+       }
+       else if(choice>=6 && choice<9)
+       {
+	  cout<<"\nEnter Student Id     ::";
+	  cin>>id;
+	  while(file.read((char*)&mar,sizeof(exam::mark)))
+	  {
+			if(id==mar.mark_id)
+			{
+			flag=1;
+	cout<<"\n1.Student ID              ::"<<mar.mark_id;
+	cout<<"\n2.Student Class           ::"<<mar.clas;
+	cout<<"\n3.Student Hindi Marks     ::"<<mar.hindi;
+	cout<<"\n4.Student English Marks   ::"<<mar.eng;
+	cout<<"\n5.Student Physics Marks   ::"<<mar.phy;
+	cout<<"\n6.Student Chemistry Marks ::"<<mar.chem;
+	cout<<"\n7.Student Biology Marks   ::"<<mar.bio;
+	cout<<"\n8.Student History Marks   ::"<<mar.hist;
+	cout<<"\n9.Student Geography Marks ::"<<mar.geog;
+	cout<<"\n10.Student Maths Marks    ::"<<mar.math;
+	cout<<"\nTotal Marks               ::";
+	mar.total=mar.hindi+mar.eng+mar.phy+mar.chem
+	+mar.bio+mar.hist+mar.geog+mar.math;
+	cout<<mar.total;
+	mar.com=0,mar.eco=0,mar.hist=0,mar.art=0,mar.comp=0,mar.acc=0;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Hindi Marks           ::";
+		cin>>mar.hindi;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New English Marks         ::";
+		cin>>mar.eng;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Physics Marks         ::";
+		cin>>mar.phy;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Chemistry Marks       ::";
+		cin>>mar.chem;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Biology Marks         ::";
+		cin>>mar.bio;
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New History Marks         ::";
+		cin>>mar.hist;
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Geography Marks        ::";
+		cin>>mar.geog;
+		}
+		else if(numb==10)
+		{
+		cout<<endl<<"New Maths Marks           ::";
+		cin>>mar.math;
+		}
+		else
+		{cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();;
+		}while(ans=='y');
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+		else
+		{
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+	  }
+	file.close();
+	temp.close();
+       }
+       else if(choice>=9 && choice<11)
+       {
+	   cout<<"\n1.COMPUTER CLASS";
+	   cout<<"\n2.ECONOMICS CLASS";
+	   cout<<"\n\nEnter your choice";
+	   cin>>last;
+	   if(last==1)
+	   {
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		while(file.read((char*)&mar,sizeof(exam::mark)))
+		{
+			if(id==mar.mark_id)
+			{
+			flag=1;
+	cout<<"\n1.Student ID              ::"<<mar.mark_id;
+	cout<<"\n2.Student Class           ::"<<mar.clas;
+	cout<<"\n3.Student Hindi Marks     ::"<<mar.hindi;
+	cout<<"\n4.Student English Marks   ::"<<mar.eng;
+	cout<<"\n5.Student Physics Marks   ::"<<mar.phy;
+	cout<<"\n6.Student Chemistry Marks ::"<<mar.chem;
+	cout<<"\n7.Student Biology Marks   ::"<<mar.bio;
+	cout<<"\n8.Student History Marks   ::"<<mar.hist;
+	cout<<"\n9.Student Geography Marks ::"<<mar.geog;
+	cout<<"\n10.Student Maths Marks    ::"<<mar.math;
+	cout<<"\n11.Student Computer Marks ::"<<mar.comp;
+	cout<<"\nTotal Marks               ::";
+	mar.total=mar.hindi+mar.eng+mar.phy+mar.chem
+	+mar.bio+mar.hist+mar.geog+mar.math+mar.comp;
+	cout<<mar.total;
+	mar.com=0,mar.eco=0,mar.hist=0,mar.art=0,mar.acc=0;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Hindi Marks           ::";
+		cin>>mar.hindi;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New English Marks         ::";
+		cin>>mar.eng;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Physics Marks         ::";
+		cin>>mar.phy;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Chemistry Marks       ::";
+		cin>>mar.chem;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Biology Marks         ::";
+		cin>>mar.bio;
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New History Marks         ::";
+		cin>>mar.hist;
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Geography Marks        ::";
+		cin>>mar.geog;
+		}
+		else if(numb==10)
+		{cout<<endl<<"New Maths Marks           ::";
+		cin>>mar.math;
+		}
+		else if(numb==11)
+		{cout<<endl<<"New Computer Marks        ::";
+		cin>>mar.comp;
+		}
+		else
+		{cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();;
+		}while(ans=='y');
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+		else
+		{
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+	   }
+	   file.close();
+	   temp.close();
+	 }
+	 else if(last==2)
+	   {
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		while(file.read((char*)&mar,sizeof(exam::mark)))
+		{
+			if(id==mar.mark_id)
+			{
+			flag=1;
+	cout<<"\n1.Student ID              ::"<<mar.mark_id;
+	cout<<"\n2.Student Class           ::"<<mar.clas;
+	cout<<"\n3.Student Hindi Marks     ::"<<mar.hindi;
+	cout<<"\n4.Student English Marks   ::"<<mar.eng;
+	cout<<"\n5.Student Physics Marks   ::"<<mar.phy;
+	cout<<"\n6.Student Chemistry Marks ::"<<mar.chem;
+	cout<<"\n7.Student Biology Marks   ::"<<mar.bio;
+	cout<<"\n8.Student History Marks   ::"<<mar.hist;
+	cout<<"\n9.Student Geography Marks ::"<<mar.geog;
+	cout<<"\n10.Student Maths Marks    ::"<<mar.math;
+	cout<<"\n11.Student Economics      ::"<<mar.eco;
+	cout<<"\nTotal Marks               ::";
+	mar.total=mar.hindi+mar.eng+mar.phy+mar.chem
+	+mar.bio+mar.hist+mar.geog+mar.math+mar.eco;
+	cout<<mar.total;
+	mar.com=0,mar.comp=0,mar.hist=0,mar.art=0,mar.acc=0;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Hindi Marks           ::";
+		cin>>mar.hindi;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New English Marks         ::";
+		cin>>mar.eng;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Physics Marks         ::";
+		cin>>mar.phy;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Chemistry Marks       ::";
+		cin>>mar.chem;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Biology Marks         ::";
+		cin>>mar.bio;
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New History Marks         ::";
+		cin>>mar.hist;
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Geography Marks        ::";
+		cin>>mar.geog;
+		}
+		else if(numb==10)
+		{
+		cout<<endl<<"New Maths Marks           ::";
+		cin>>mar.math;
+		}
+		else if(numb==11)
+		{
+		cout<<endl<<"New Economic Marks        ::";
+		cin>>mar.eco;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();;
+		}while(ans=='y');
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+		else
+		{
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+	    }
+	file.close();
+	temp.close();
+	 }
+	 else
+	 {
+	   cout<<"\n\nWrong Choice";
+	 }
+
+       }
+       else if(choice>=11 && choice<=12)
+       {
+		cout<<"\nSCIENCE SECTION";
+		cout<<"\nECONOMICS SECTION";
+		cout<<"\n\n Enter your choice";
+		cin>>last;
+	  if(last==1)
+	  {
+
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		while(file.read((char*)&mar,sizeof(exam::mark)))
+		{
+			if(id==mar.mark_id)
+			{
+			flag=1;
+	cout<<"\n1.Student ID              ::"<<mar.mark_id;
+	cout<<"\n2.Student Class           ::"<<mar.clas;
+	cout<<"\n3.Student Hindi Marks     ::"<<mar.hindi;
+	cout<<"\n4.Student English Marks   ::"<<mar.eng;
+	cout<<"\n5.Student Physics Marks   ::"<<mar.phy;
+	cout<<"\n6.Student Chemistry Marks ::"<<mar.chem;
+	cout<<"\n7.Student Biology Marks   ::"<<mar.bio;
+	cout<<"\n8.Student Computer Marks  ::"<<mar.comp;
+	cout<<"\n9.Student Maths Marks     ::"<<mar.math;
+	cout<<"\nTotal Marks               ::";
+	mar.total=mar.hindi+mar.eng+mar.phy+mar.chem+
+	mar.bio+mar.comp+mar.math;
+	cout<<mar.total;
+	mar.geog=0,mar.social=0,mar.com=0,mar.science=0,
+	mar.eco=0,mar.hist=0,mar.art=0,mar.acc=0;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Hindi Marks           ::";
+		cin>>mar.hindi;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New English Marks         ::";
+		cin>>mar.eng;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Physics Marks         ::";
+		cin>>mar.phy;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Chemistry Marks       ::";
+		cin>>mar.chem;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Biology Marks         ::";
+		cin>>mar.bio;
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New Computer Marks        ::";
+		cin>>mar.comp;
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Maths Marks           ::";
+		cin>>mar.math;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();;
+		}while(ans=='y');
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+		else
+		{
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+	     }
+	     file.close();
+	     temp.close();
+	  }
+	  else if(last==2)
+	  {
+		cout<<"\nEnter Student Id     ::";
+		cin>>id;
+		while(file.read((char*)&mar,sizeof(exam::mark)))
+		{
+			if(id==mar.mark_id)
+			{
+			flag=1;
+	cout<<"\n1.Student ID              ::"<<mar.mark_id;
+	cout<<"\n2.Student Class           ::"<<mar.clas;
+	cout<<"\n3.Student Hindi Marks     ::"<<mar.hindi;
+	cout<<"\n4.Student English Marks   ::"<<mar.eng;
+	cout<<"\n5.Student Commerce Marks  ::"<<mar.com;
+	cout<<"\n6.Student Economics Marks ::"<<mar.eco;
+	cout<<"\n7.Student Art Marks       ::"<<mar.art;
+	cout<<"\n8.Student Account Marks   ::"<<mar.acc;
+	cout<<"\n9.Student Computer Marks  ::"<<mar.comp;
+	cout<<"\n10.Student Maths Marks    ::"<<mar.math;
+	cout<<"\nTotal Marks           ::";
+	mar.total=mar.hindi+mar.eng+mar.com+mar.eco+
+	mar.acc+mar.comp+mar.math+mar.art;
+	cout<<mar.total;
+	mar.geog=0,mar.social=0,mar.bio=0,mar.chem=0,mar.phy=0
+	,mar.science=0,mar.hist=0;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Hindi Marks           ::";
+		cin>>mar.hindi;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New English Marks         ::";
+		cin>>mar.eng;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Commerce Marks        ::";
+		cin>>mar.com;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Economics Marks       ::";
+		cin>>mar.eco;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Art Marks             ::";
+		cin>>mar.art;
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New Account Marks         ::";
+		cin>>mar.acc;
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Computer Marks        ::";
+		cin>>mar.comp;
+		}
+		else if(numb==10)
+		{
+		cout<<endl<<"New Maths Marks           ::";
+		cin>>mar.math;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();;
+		}while(ans=='y');
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+		else
+		{
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+	  }
+	  file.close();
+	  temp.close();
+	  }
+	  else
+	  {
+	  cout<<"\n\nWrong Choice";
+	  }
+	}
+	else
+	{
+	cout<<"\n\nWrong Choice";
+	}
+	if(flag==0)
+	{
+	cout<<"\n\n Record not found";
+	}
+	else
+	{
+	file.open(filename,ios::out | ios::binary);
+	temp.open("temp.dat",ios::in | ios::binary);
+	while(temp.read((char*)&mar,sizeof(exam::mark)))
+		{
+		 file.write((char*)&mar,sizeof(exam::mark));
+		}
+	temp.close();
+	file.close();
+	remove("temp.dat");
+	}
+}
+	getch();
+	break;
+case 3:
+	clrscr();
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with class number eg(c2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+if(!file)
+{
+cout<<"\nSorry Wrong File name is given";
+}
+else
+{
+	cout<<"\nEnter Student Id     ::";
+	cin>>id;
+	while(file.read((char*)&mar,sizeof(exam::mark)))
+	{
+		if(id==mar.mark_id)
+		{
+		flag=1;
+		cout<<"\n\n Record deleted";
+		}
+		else
+		{
+		temp.write((char*)&mar,sizeof(exam::mark));
+		}
+	 }
+	 file.close();
+	 temp.close();
+	 if(flag==0)
+	 {
+	 cout<<"\n\nRecord not found";
+	 }
+	 else
+	 {
+	 file.open(filename,ios::out | ios::binary);
+	 temp.open("temp.dat",ios::in | ios::binary);
+	while(temp.read((char*)&mar,sizeof(exam::mark)))
+		{
+		 file.write((char*)&mar,sizeof(exam::mark));
+		}
+	temp.close();
+	file.close();
+	remove("temp.dat");
+	 }
+}
+	getch();
+	break;
+case 4:
+	clrscr();
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with class number eg(c2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+if(!file)
+{
+cout<<"\nSorry Wrong File name is given";
+}
+else
+{
+	cout<<"\nEnter Student Id     ::";
+	cin>>id;
+	while(file.read((char*)&mar,sizeof(exam::mark)))
+	{
+		if(id==mar.mark_id)
+		{
+		flag=1;
+	cout<<"\nStudent ID              ::"<<mar.mark_id;
+	cout<<"\nStudent Class           ::"<<mar.clas;
+	cout<<"\nStudent Hindi Marks     ::"<<mar.hindi;
+	cout<<"\nStudent English Marks   ::"<<mar.eng;
+	cout<<"\nStudent Science Marks   ::"<<mar.science;
+	cout<<"\nStudent Physics Marks   ::"<<mar.phy;
+	cout<<"\nStudent Chemistry Marks ::"<<mar.chem;
+	cout<<"\nStudent Biology Marks   ::"<<mar.bio;
+	cout<<"\nStudent Social Marks    ::"<<mar.social;
+	cout<<"\nStudent History Marks   ::"<<mar.hist;
+	cout<<"\nStudent Geography Marks ::"<<mar.geog;
+	cout<<"\nStudent Commerce Marks  ::"<<mar.com;
+	cout<<"\nStudent Economic Marks  ::"<<mar.eco;
+	cout<<"\nStudent Account Marks   ::"<<mar.acc;
+	cout<<"\nStudent Art    Marks    ::"<<mar.art;
+	cout<<"\nStudent Computer Marks  ::"<<mar.comp;
+	cout<<"\nStudent Maths Marks     ::"<<mar.math;
+	cout<<"\nTotal Marks             ::"<<mar.total;
+		}
+	 }
+	 file.close();
+	 temp.close();
+	 if(flag==0)
+	 {
+	 cout<<"\n\nRecord not found";
+	 }
+}
+	getch();
+	break;
+case 5:
+	clrscr();
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with class number eg(c2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+if(!file)
+{
+cout<<"\nSorry Wrong File name is given";
+}
+else
+{
+	while(file.read((char*)&mar,sizeof(exam::mark)))
+	{
+	cout<<"\nStudent ID              ::"<<mar.mark_id;
+	cout<<"\nStudent Class           ::"<<mar.clas;
+	cout<<"\nStudent Hindi Marks     ::"<<mar.hindi;
+	cout<<"\nStudent English Marks   ::"<<mar.eng;
+	cout<<"\nStudent Science Marks   ::"<<mar.science;
+	cout<<"\nStudent Physics Marks   ::"<<mar.phy;
+	cout<<"\nStudent Chemistry Marks ::"<<mar.chem;
+	cout<<"\nStudent Biology Marks   ::"<<mar.bio;
+	cout<<"\nStudent Social Marks    ::"<<mar.social;
+	cout<<"\nStudent History Marks   ::"<<mar.hist;
+	cout<<"\nStudent Geography Marks ::"<<mar.geog;
+	cout<<"\nStudent Commerce Marks  ::"<<mar.com;
+	cout<<"\nStudent Economic Marks  ::"<<mar.eco;
+	cout<<"\nStudent Account Marks   ::"<<mar.acc;
+	cout<<"\nStudent Art    Marks    ::"<<mar.art;
+	cout<<"\nStudent Computer Marks  ::"<<mar.comp;
+	cout<<"\nStudent Maths Marks     ::"<<mar.math;
+	cout<<"\nTotal Marks             ::"<<mar.total;
+cout<<"\n=====================================================================";
+		getch();
+	}
+
+	 file.close();
+}
+	break;
+case 6:
+	menu mn;
+	mn.start();
+	break;
+default:
+cout<<"\n\n Wrong Choice";
+break;
+}
+}
+}
+//------------------------------------------------MISCELLANEOUS CLASS--------
+//====================TECH ADD===============================================
+
+void miscell::teacher_member()
+{
+teacher th;
+while(1)
+{
+clrscr();
+char ans='n';
+int numb=0,id=0,flag=0,last=0;
+fstream file,file1,temp,temp1;
+int ch;
+cout<<"1.Teacher Add New"<<endl<<"2.Teacher Update"<<endl<<"3.Teacher Delete"
+<<endl<<"4.Teacher View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	file.open("teachers.dat",ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&th,sizeof(teacher)))
+	{
+	last=1;
+	id=th.teach_id;
+	}
+	if(last==0)
+	{
+	id=1;
+	}
+	else
+	{
+	id=id+1;
+	}
+	th.teach_id=id;
+	file.close();
+	file1.open("teachers.dat", ios::app | ios::binary);
+	cout<<"Teacher id               ::";
+	cout<<th.teach_id;
+	cout<<endl;
+	cout<<"\nTeacher name             ::";
+	gets(th.name);
+	cout<<endl;
+	cout<<"Address                  ::";
+	gets(th.add);
+	cout<<endl;
+	cout<<"Contact                  ::";
+	gets(th.phone);
+	cout<<endl;
+	cout<<"Qualification            ::";
+	gets(th.qualific);
+	cout<<endl;
+	cout<<"Specialization Subject   ::";
+	gets(th.subject);
+	cout<<endl;
+	cout<<"Subjects taught          ::";
+	gets(th.taught);
+	cout<<endl;
+	cout<<"Class teacher(applicable)::";
+	gets(th.clas_teach);
+	cout<<endl;
+	cout<<"Activity incharge        ::";
+	gets(th.activity);
+	file1.write((char*)&th,sizeof(teacher));
+	file1.close();
+	break;
+case 2:
+	clrscr();
+	file.open("teachers.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the teacher      ::";
+	cin>>id;
+	while(file.read((char*)&th,sizeof(teacher)))
+	{
+		if(id==th.teach_id)
+		{
+		flag=1;
+	cout<<endl<<"1.Teacher Id            ::"<<th.teach_id;
+	cout<<endl<<"2.Teacher Name          ::"<<th.name;
+	cout<<endl<<"3.Address               ::"<<th.add;
+	cout<<endl<<"4.Contact               ::"<<th.phone;
+	cout<<endl<<"5.Qualification         ::"<<th.qualific;
+	cout<<endl<<"6.Specilization         ::"<<th.subject;
+	cout<<endl<<"7.Subject Taught        ::"<<th.taught;
+	cout<<endl<<"8.Class Teacher         ::"<<th.clas_teach;
+	cout<<endl<<"9.Activity Incharge     ::"<<th.activity;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		fflush(stdin);
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"New Teacher Name          ::";
+		gets(th.name);
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Address               ::";
+		gets(th.add);
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New Contact               ::";
+		gets(th.phone);
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Qualification         ::";
+		gets(th.qualific);
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Specilization         ::";
+		gets(th.subject);
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Subject Taught        ::";
+		gets(th.taught);
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New Class Teacher         ::";
+		gets(th.clas_teach);
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Activity Incharge    ::";
+		gets(th.activity);
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+		}while(ans=='y');
+		file1.write((char*)&th,sizeof(teacher));
+		}
+		else
+		{
+		file1.write((char*)&th,sizeof(teacher));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("teachers.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&th,sizeof(teacher)))
+	{
+	file1.write((char*)&th,sizeof(teacher));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	break;
+case 3:
+	clrscr();
+	file.open("teachers.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the teacher id      ::";
+	cin>>id;
+	while(file.read((char*)&th,sizeof(teacher)))
+       {
+		if(id==th.teach_id)
+		{
+		flag=1;
+		cout<<"\n\n Record deleted";
+		}
+		else
+		{
+		file1.write((char*)&th,sizeof(teacher));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("teachers.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&th,sizeof(teacher)))
+	{
+	file1.write((char*)&th,sizeof(teacher));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	getch();
+	break;
+case 4:
+	clrscr();
+	file.open("teachers.dat", ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the teacher      ::";
+	cin>>id;
+	while(file.read((char*)&th,sizeof(teacher)))
+	{
+		if(id==th.teach_id)
+		{
+		flag=1;
+	cout<<endl<<"Teacher Id           ::"<<th.teach_id;
+	cout<<endl<<"Teacher Name         ::"<<th.name;
+	cout<<endl<<"Address              ::"<<th.add;
+	cout<<endl<<"Contact              ::"<<th.phone;
+	cout<<endl<<"Qualification        ::"<<th.qualific;
+	cout<<endl<<"Specilization        ::"<<th.subject;
+	cout<<endl<<"Subject Taught       ::"<<th.taught;
+	cout<<endl<<"Class Teacher        ::"<<th.clas_teach;
+	cout<<endl<<"Activity Incharge    ::"<<th.activity;
+		}
+	}
+	file.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	}
+	getch();
+	break;
+case 5:
+	this->misc_submenu();
+	break;
+default:
+	cout<<"\n\n\n Wrong choice";
+	getch();
+	break;
+}
+}
+}
+//====================SPORT ADD==============================================
+void miscell::sport_member()
+{
+sport sp;
+while(1)
+{
+clrscr();
+char ans='n';
+int numb=0,id=0,flag=0,last=0;
+fstream file,file1,temp,temp1;
+int ch;
+cout<<"1.Sport Add New"<<endl<<"2.Sport Update"<<endl<<"3.Sport Delete"
+<<endl<<"4.Sport View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+		file.open("sports.dat",ios::in | ios::binary);
+		file.seekg(0,ios::beg);
+		while(file.read((char*)&sp,sizeof(sport)))
+		{
+		last=1;
+		id=sp.sport_id;
+		}
+		if(last==0)
+		{
+		id=1;
+		}
+		else
+		{
+		id=id+1;
+		}
+		sp.sport_id=id;
+		file.close();
+	file1.open("sports.dat", ios::app | ios::binary);
+	cout<<"Sport id              ::";
+	cout<<sp.sport_id;
+	cout<<endl;
+	cout<<"\nGame name             ::";
+	gets(sp.game);
+	cout<<endl;
+	cout<<"Head Coach            ::";
+	gets(sp.head);
+	cout<<endl;
+	cout<<"Sub Head Coach        ::";
+	gets(sp.sub_head);
+	cout<<endl;
+	cout<<"Captain               ::";
+	gets(sp.captain);
+	cout<<endl;
+	cout<<"Vice Captain          ::";
+	gets(sp.vice);
+	cout<<endl;
+	cout<<"Team member           ::";
+	gets(sp.other);
+	cout<<endl;
+	cout<<"Level-state,school,etc::";
+	gets(sp.level);
+	cout<<endl;
+	cout<<"Awards                ::";
+	gets(sp.award);
+	cout<<endl;
+	cout<<"Position              ::";
+	gets(sp.position);
+	file1.write((char*)&sp,sizeof(sport));
+	file1.close();
+	break;
+case 2:
+	clrscr();
+	file.open("sports.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Sport Id      ::";
+	cin>>id;
+	while(file.read((char*)&sp,sizeof(sport)))
+	{
+		if(id==sp.sport_id)
+		{
+		flag=1;
+	cout<<endl<<"1.Sport Id          ::"<<sp.sport_id;
+	cout<<endl<<"2.Game  Name        ::"<<sp.game;
+	cout<<endl<<"3.Head Coach        ::"<<sp.head;
+	cout<<endl<<"4.Sub Coach         ::"<<sp.sub_head;
+	cout<<endl<<"5.Captain           ::"<<sp.captain;
+	cout<<endl<<"6.Vice Captain      ::"<<sp.vice;
+	cout<<endl<<"7.Team Members      ::"<<sp.other;
+	cout<<endl<<"8.Level             ::"<<sp.level;
+	cout<<endl<<"9.Awards            ::"<<sp.award;
+	cout<<endl<<"10.Position         ::"<<sp.position;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"New Game Name             ::";
+		gets(sp.game);
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Head Coach            ::";
+		gets(sp.head);
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New Sub Coach             ::";
+		gets(sp.sub_head);
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Captain               ::";
+		gets(sp.captain);
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Vice Captain          ::";
+		gets(sp.vice);
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Team Members          ::";
+		gets(sp.other);
+		}
+		else if(numb==8)
+		{
+		cout<<endl<<"New Level                 ::";
+		gets(sp.level);
+		}
+		else if(numb==9)
+		{
+		cout<<endl<<"New Awards                ::";
+		gets(sp.award);
+		}
+		else if(numb==10)
+		{
+		cout<<endl<<"New Position             ::";
+		gets(sp.position);
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+		}while(ans=='y');
+		file1.write((char*)&sp,sizeof(sport));
+		}
+		else
+		{
+		file1.write((char*)&sp,sizeof(sport));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("sports.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&sp,sizeof(sport)))
+	{
+	file1.write((char*)&sp,sizeof(sport));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	break;
+case 3:
+	clrscr();
+	file.open("sports.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Sport Id      ::";
+	cin>>id;
+	while(file.read((char*)&sp,sizeof(sport)))
+	{
+		if(id==sp.sport_id)
+		{
+		flag=1;
+		cout<<"\n\n Record deleted";
+		}
+		else
+		{
+		file1.write((char*)&sp,sizeof(sport));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("sports.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&sp,sizeof(sport)))
+	{
+	file1.write((char*)&sp,sizeof(sport));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	getch();
+	break;
+case 4:
+	clrscr();
+	file.open("sports.dat", ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Sport Id      ::";
+	cin>>id;
+	while(file.read((char*)&sp,sizeof(sport)))
+	{
+		if(id==sp.sport_id)
+		{
+		flag=1;
+	cout<<endl<<"Sport Id         ::"<<sp.sport_id;
+	cout<<endl<<"Game  Name       ::"<<sp.game;
+	cout<<endl<<"Head Coach       ::"<<sp.head;
+	cout<<endl<<"Sub Coach        ::"<<sp.sub_head;
+	cout<<endl<<"Captain          ::"<<sp.captain;
+	cout<<endl<<"Vice Captain     ::"<<sp.vice;
+	cout<<endl<<"Team Members     ::"<<sp.other;
+	cout<<endl<<"Level            ::"<<sp.level;
+	cout<<endl<<"Awards           ::"<<sp.award;
+	cout<<endl<<"Position         ::"<<sp.position;
+		}
+	}
+	file.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	}
+	getch();
+	break;
+case 5:
+	this->misc_submenu();
+	break;
+default:
+	cout<<"\n\n\n Wrong Choice";
+	getch();
+break;
+}
+}
+}
+//====================STAFF ADD==============================================
+void miscell::staff_member()
+{
+staff st;
+while(1)
+{
+clrscr();
+char ans='n';
+int numb=0,id=0,flag=0,last=0;
+fstream file,file1,temp,temp1;
+int ch;
+cout<<"1.Staff Add New"<<endl<<"2.Staff Update"<<endl<<"3.Staff Delete"
+<<endl<<"4.Staff View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	file.open("staffs.dat",ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&st,sizeof(staff)))
+	{
+	last=1;
+	id=st.staff_id;
+	}
+	if(last==0)
+	{
+	id=1;
+	}
+	else
+	{
+	id=id+1;
+	}
+	st.staff_id=id;
+	file.close();
+	file1.open("staffs.dat", ios::app | ios::binary);
+	cout<<"Staff    Id              ::";
+	cout<<st.staff_id<<endl;
+	cout<<"\nStaff name               ::";
+	gets(st.name);
+	cout<<endl;
+	cout<<"Address                  ::";
+	gets(st.add);
+	cout<<endl;
+	cout<<"Contact                  ::";
+	gets(st.phone);
+	cout<<endl;
+	cout<<"Retired(yes/no)          ::";
+	gets(st.retired);
+	cout<<endl;
+	cout<<"Job                      ::";
+	gets(st.job);
+	cout<<endl;
+	cout<<"Post                     ::";
+	gets(st.post);
+	file1.write((char*)&st,sizeof(staff));
+	file1.close();
+	break;
+case 2:
+	clrscr();
+	file.open("staffs.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Staff id      ::";
+	cin>>id;
+	while(file.read((char*)&st,sizeof(staff)))
+	{
+	if(id==st.staff_id)
+	{
+	flag=1;
+	cout<<endl<<"1.Staff Id             ::"<<st.staff_id;
+	cout<<endl<<"2.Staff Name           ::"<<st.name;
+	cout<<endl<<"3.Address              ::"<<st.add;
+	cout<<endl<<"4.Contact              ::"<<st.phone;
+	cout<<endl<<"5.Retired              ::"<<st.retired;
+	cout<<endl<<"6.Job                  ::"<<st.job;
+	cout<<endl<<"7.Post                 ::"<<st.post;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+			cout<<endl<<"New Staff Name            ::";
+		gets(st.name);
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Address               ::";
+		gets(st.add);
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New Contact               ::";
+		gets(st.phone);
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Retired               ::";
+		gets(st.retired);
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Job                   ::";
+		gets(st.job);
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Post                  ::";
+		gets(st.post);
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+		}while(ans=='y');
+		file1.write((char*)&st,sizeof(staff));
+		}
+		else
+		{
+		file1.write((char*)&st,sizeof(staff));
+		}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("staffs.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&st,sizeof(staff)))
+		{
+	file1.write((char*)&st,sizeof(staff));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	break;
+case 3:
+	clrscr();
+	file.open("staffs.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Staff id      ::";
+	cin>>id;
+	while(file.read((char*)&st,sizeof(staff)))
+	{
+	if(id==st.staff_id)
+	{
+	flag=1;
+	cout<<"\n\n Record deleted";
+	}
+	else
+	{
+	file1.write((char*)&st,sizeof(staff));
+	}
+	}
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("staffs.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&st,sizeof(staff)))
+	{
+	file1.write((char*)&st,sizeof(staff));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	getch();
+	break;
+case 4:
+	clrscr();
+	file.open("staffs.dat", ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Staff id      ::";
+	cin>>id;
+	while(file.read((char*)&st,sizeof(staff)))
+	{
+		if(id==st.staff_id)
+		{
+		flag=1;
+	cout<<endl<<"Staff Id             ::"<<st.staff_id;
+	cout<<endl<<"Staff Name           ::"<<st.name;
+	cout<<endl<<"Address              ::"<<st.add;
+	cout<<endl<<"Contact              ::"<<st.phone;
+	cout<<endl<<"Retired              ::"<<st.retired;
+	cout<<endl<<"Job                  ::"<<st.job;
+	cout<<endl<<"Post                 ::"<<st.post;
+		}
+	}
+	file.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	}
+	getch();
+	break;
+case 5:
+	this->misc_submenu();
+	break;
+default:
+	cout<<"\n\n\n Wrong choice";
+	getch();
+	break;
+}
+}
+}
+//---------------------------------------------ACCOUNT CLASS FUNCTION--------
+//====================SALARY=================================================
+void account::salary_account()//miscell mis,account acc)
+{
+account::salary sal;
+while(1)
+{
+clrscr();
+char ans='n',filename[25];
+int numb=0,cal=0,id=0,flag=0,choice=0,already=0;
+int ch;
+fstream file,file1,temp;
+cout<<"1.Salary Add New"<<endl<<"2.Salary Update"<<endl<<"3.Salary Delete"
+<<endl<<"4.Salary View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	miscell::teacher th;
+	miscell::staff st;
+	cout<<"1.This month press 1    ::"<<endl;
+	cout<<"2.Previous month press 2::"<<endl<<endl;
+	cout<<"Enter your choice::";
+	cin>>choice;
+	if(choice==1)
+	{
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with month number eg(f2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::app | ios::binary);
+	cout<<"\nEnter 1 for teacher or 2 for staff salary     ::";
+	cin>>numb;
+		if(numb==1)
+		{
+		strcpy(sal.teach,"teacher");
+		cout<<"\nEnter Id                                      ::";
+		cin>>id;
+		file1.open("teachers.dat",ios::in | ios::binary);
+		temp.open(filename,ios::in |ios::binary);
+		while(file1.read((char*)&th,sizeof(miscell::teacher)))
+		{
+			if(id==th.teach_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+			if(flag==1)
+			{
+			while(temp.read((char*)&sal,sizeof(account::salary)))
+			{
+				if(id==sal.sal_id && strcmp(sal.teach,"teacher")==0)
+				{
+				already=1;
+				}
+			}
+			temp.close();
+			if(already==0)
+		   {
+		sal.sal_id=id;
+		cout<<"\nEnter Basic Salary                            ::";
+		cin>>sal.basic;
+		cout<<"\nEnter DA for Salary                           ::";
+		cin>>sal.da;
+		cout<<"\nEnter House rent only if premises not provided::";
+		cin>>sal.hr;
+		cout<<"\nEnter Medial service MC                       ::";
+		cin>>sal.mc;
+		cout<<"\nEnter PA                                      ::";
+		cin>>sal.pa;
+		file.write((char*)&sal,sizeof(account::salary));
+		cal=sal.basic+sal.da+sal.hr+sal.mc-sal.pa;
+		cout<<"\nTotal Salary          ::"<<cal;
+
+		    }
+		    else
+		    {
+		    cout<<"\n\n Already exist";
+		    }
+			}
+			else
+			{
+			cout<<"\n\n\n No Such Id";
+			}
+		}
+		else if(numb==2)
+		{
+		strcpy(sal.teach,"staff");
+		cout<<"\nEnter Id                                      ::";
+		cin>>id;
+		file1.open("staffs.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(miscell::staff)))
+		{
+			if(id==st.staff_id)
+			{
+			flag=1;
+			}
+		}
+	       file1.close();
+			if(flag==1)
+			{
+			while(temp.read((char*)&sal,sizeof(account::salary)))
+			   {
+				if(id==sal.sal_id && strcmp(sal.teach,"staff")==0)
+				{
+				already=1;
+				}
+			    }
+			    temp.close();
+			    if(already==0)
+			    {
+		sal.sal_id=id;
+		cout<<"\nEnter Basic Salary                            ::";
+		cin>>sal.basic;
+		cout<<"\nEnter DA for Salary                           ::";
+		cin>>sal.da;
+		cout<<"\nEnter House rent only if premises not provided::";
+		cin>>sal.hr;
+		cout<<"\nEnter Medial service MC                       ::";
+		cin>>sal.mc;
+		cout<<"\nEnter PA                                      ::";
+		cin>>sal.pa;
+		file.write((char*)&sal,sizeof(account::salary));
+		cal=sal.basic+sal.da+sal.hr+sal.mc-sal.pa;
+		cout<<"\nTotal Salary          ::"<<cal;
+			     }
+			     else
+			     {
+			     cout<<"\n\n Already exist";
+			     }
+			}
+			else
+			{
+			cout<<"\n\n\n No Such Id";
+			}
+		}
+		else
+		{
+		cout<<"\n\n\n Wrong Choice";
+		}
+	file.close();
+	}
+	else if(choice==2)
+	{
+	cout<<"\nName of file should be year with month number eg(f2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::app | ios::binary );
+	if(!file)
+	{
+	cout<<"\n\n\Sorry Wrong name mentioned not available";
+	}
+	else
+	{
+	cout<<"\nEnter 1 for teacher or 2 for staff salary     ::";
+	cin>>numb;
+		if(numb==1)
+		{
+		strcpy(sal.teach,"teacher");
+		cout<<"\nEnter Id                                      ::";
+		cin>>id;
+		file1.open("teachers.dat",ios::in | ios::binary);
+		while(file1.read((char*)&th,sizeof(miscell::teacher)))
+		{
+			if(id==th.teach_id)
+			{
+			flag=1;
+			}
+		}
+		file1.close();
+			if(flag==1)
+			{
+			while(temp.read((char*)&sal,sizeof(account::salary)))
+			  {
+				if(id==sal.sal_id && strcmp(sal.teach,"teacher")==0)
+				{
+				already=1;
+				}
+			   }
+			   temp.close();
+			   if(already==0)
+			   {
+		sal.sal_id=id;
+		cout<<"\nEnter Basic Salary                            ::";
+		cin>>sal.basic;
+		cout<<"\nEnter DA for Salary                           ::";
+		cin>>sal.da;
+		cout<<"\nEnter House rent only if premises not provided::";
+		cin>>sal.hr;
+		cout<<"\nEnter Medial service MC                       ::";
+		cin>>sal.mc;
+		cout<<"\nEnter PA                                      ::";
+		cin>>sal.pa;
+		file.write((char*)&sal,sizeof(account::salary));
+			    }
+			    else
+			    {
+			     cout<<"\n\n Already exist";
+			    }
+			}
+			else
+			{
+			cout<<"\n\n\n No Such Id";
+			}
+		}
+		else if(numb==2)
+		{
+		strcpy(sal.teach,"staff");
+		cout<<"\nEnter Id                                      ::";
+		cin>>id;
+		file1.open("staffs.dat",ios::in | ios::binary);
+		while(file1.read((char*)&st,sizeof(miscell::staff)))
+		{
+			if(id==st.staff_id)
+			{
+			flag=1;
+			}
+		}
+	       file1.close();
+			if(flag==1)
+			{
+			while(temp.read((char*)&sal,sizeof(account::salary)))
+			    {
+				if(id==sal.sal_id && strcmp(sal.teach,"staff")==0)
+				{
+				already=1;
+				}
+			     }
+			     temp.close();
+			     if(already==0)
+			     {
+		sal.sal_id=id;
+		cout<<"\nEnter Basic Salary                            ::";
+		cin>>sal.basic;
+		cout<<"\nEnter DA for Salary                           ::";
+		cin>>sal.da;
+		cout<<"\nEnter House rent only if premises not provided::";
+		cin>>sal.hr;
+		cout<<"\nEnter Medial service MC                       ::";
+		cin>>sal.mc;
+		cout<<"\nEnter PA                                      ::";
+		cin>>sal.pa;
+		file.write((char*)&sal,sizeof(account::salary));
+			     }
+			     else
+			     {
+			     cout<<"\n\nAlready exist";
+			     }
+			}
+			else
+			{
+			cout<<"\n\n\n No Such Id";
+			}
+		}
+		else
+		{
+		cout<<"\n\n\n Wrong Choice";
+		}
+	file.close();
+	}
+	}
+	else
+	{
+	cout<<"\n\n Wrong Choice";
+	}
+	getch();
+	break;
+case 2:
+	clrscr();
+	cout<<"\nName of file should be year with month number eg(f2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{       cout<<"\nEnter 1 for teacher or 2 for other staff ::";
+	cin>>numb;
+	if(numb==1)
+	{   cout<<"\nEnter the Teacher Id::";
+	    cin>>id;
+
+		while(file.read((char*)&sal,sizeof(account::salary)))
+		{
+			if(id==sal.sal_id && strcmp(sal.teach,"teacher")==0)
+			{
+			flag=1;
+	cout<<"\n\n";
+	cout<<"\n1.Staff Id              ::"<<sal.sal_id;
+	cout<<"\n2.Teacher or Other Staff::"<<sal.teach;
+	cout<<"\n3.Basic Salary          ::"<<sal.basic;
+	cout<<"\n4.DA                    ::"<<sal.da;
+	cout<<"\n5.House Rent            ::"<<sal.hr;
+	cout<<"\n6.Medical Checkup       ::"<<sal.mc;
+	cout<<"\n7.PA                    ::"<<sal.pa;
+				do
+				{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Basic Salary          ::";
+		cin>>sal.basic;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New DA                    ::";
+		cin>>sal.da;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New House Rent            ::";
+		cin>>sal.hr;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Medical Checkup       ::";
+		cin>>sal.mc;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New PA                    ::";
+		cin>>sal.pa;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+			    }while(ans=='y');
+		temp.write((char*)&sal,sizeof(account::salary));
+			 }
+			 else
+			 {
+		 temp.write((char*)&sal,sizeof(account::salary));
+			 }
+		}
+
+	}
+	else if(numb==2)
+	{
+	    cout<<"\nEnter the Staff Id::";
+	    cin>>id;
+		while(file.read((char*)&sal,sizeof(account::salary)))
+		{
+			if(id==sal.sal_id && strcmp(sal.teach,"staff")==0)
+			{
+			flag=1;
+	cout<<"\n\n";
+	cout<<"\nStaff Id              ::"<<sal.sal_id;
+	cout<<"\nTeacher or Other Staff::"<<sal.teach;
+	cout<<"\nBasic Salary          ::"<<sal.basic;
+	cout<<"\nDA                    ::"<<sal.da;
+	cout<<"\nHouse Rent            ::"<<sal.hr;
+	cout<<"\nMedical Checkup       ::"<<sal.mc;
+	cout<<"\nPA                    ::"<<sal.pa;
+				do
+				{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Basic Salary          ::";
+		cin>>sal.basic;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New DA                    ::";
+		cin>>sal.da;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New House Rent            ::";
+		cin>>sal.hr;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Medical Checkup       ::";
+		cin>>sal.mc;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New PA                    ::";
+		cin>>sal.pa;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+			    }while(ans=='y');
+		temp.write((char*)&sal,sizeof(account::salary));
+			 }
+			 else
+			 {
+		 temp.write((char*)&sal,sizeof(account::salary));
+			 }
+		}
+	}
+	else
+	{
+	cout<<"\n\n Wrong Choice";
+	}
+	file.close();
+	temp.close();
+	if(flag==0)
+	{
+	cout<<"\n\nRecord not found";
+	}
+	else
+	{
+	file.open(filename,ios::out | ios::binary);
+	temp.open("temp.dat",ios::in | ios::binary);
+	temp.seekg(0,ios::beg);
+		while(temp.read((char*)&sal,sizeof(account::salary)))
+		{
+		file.write((char*)&sal,sizeof(account::salary));
+		}
+	file.close();
+	temp.close();
+	remove("temp.dat");
+	}
+}
+	getch();
+	break;
+case 3:
+	clrscr();
+	cout<<"\nName of file should be year with month number eg(f2010_1.dat) for your ";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{
+	cout<<"\nEnter 1 for teacher or 2 for other staff ::";
+	cin>>numb;
+		if(numb==1)
+		{
+			cout<<"\nEnter the Teacher Id::";
+			cin>>id;
+			while(file.read((char*)&sal,sizeof(account::salary)))
+			{
+				if(id==sal.sal_id && strcmp(sal.teach,"teacher")==0)
+				{
+				flag=1;
+				cout<<"\nRecord deleted";
+				}
+				else
+				{
+				temp.write((char*)&sal,sizeof(account::salary));
+				}
+			}
+		 }
+		 else if(numb==2)
+		{
+			cout<<"\nEnter the Staff Id::";
+			cin>>id;
+			while(file.read((char*)&sal,sizeof(account::salary)))
+			{
+			if(id==sal.sal_id && strcmp(sal.teach,"staff")==0)
+				{
+				flag=1;
+				cout<<"\nRecord deleted";
+				}
+				else
+				{
+				temp.write((char*)&sal,sizeof(account::salary));
+				}
+			}
+		 }
+		 else
+		 {
+		 cout<<"\n\nWrong choice";
+		 }
+	file.close();
+	temp.close();
+	if(flag==0)
+	{
+	cout<<"\n\nRecord not found";
+	}
+	else
+	{
+	file.open(filename,ios::out | ios::binary);
+	temp.open("temp.dat",ios::in | ios::binary);
+	temp.seekg(0,ios::beg);
+		while(temp.read((char*)&sal,sizeof(account::salary)))
+		{
+		file.write((char*)&sal,sizeof(account::salary));
+		}
+	file.close();
+	temp.close();
+	remove("temp.dat");
+	}
+}
+	getch();
+	break;
+case 4:
+	clrscr();
+	cout<<"\nName of file should be year with month number eg(f2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file you want to see::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{
+
+	cout<<"\nEnter 1 for teacher or 2 for other staff ::";
+	cin>>numb;
+	if(numb==1)
+	{
+			cout<<"\nEnter the Teacher Id::";
+			cin>>id;
+		while(file.read((char*)&sal,sizeof(account::salary)))
+		{
+			if(id==sal.sal_id && strcmp(sal.teach,"teacher")==0)
+			{
+			flag=1;
+	cout<<"\n\n";
+	cout<<"\nStaff Id              ::"<<sal.sal_id;
+	cout<<"\nTeacher or Other Staff::"<<sal.teach;
+	cout<<"\nBasic Salary          ::"<<sal.basic;
+	cout<<"\nDA                    ::"<<sal.da;
+	cout<<"\nHouse Rent            ::"<<sal.hr;
+	cout<<"\nMedical Checkup       ::"<<sal.mc;
+	cout<<"\nPA                    ::"<<sal.pa;
+	cal=sal.basic+sal.da+sal.hr+sal.mc-sal.pa;
+	cout<<"\nTotal Salary          ::"<<cal;
+			}
+		}
+
+	}
+	else if(numb==2)
+	{
+		cout<<"\nEnter the Staff Id::";
+		cin>>id;
+		while(file.read((char*)&sal,sizeof(account::salary)))
+		{
+			if(id==sal.sal_id && strcmp(sal.teach,"staff")==0)
+			{
+			flag=1;
+	cout<<"\n\n";
+	cout<<"\nStaff Id              ::"<<sal.sal_id;
+	cout<<"\nTeacher or Other Staff::"<<sal.teach;
+	cout<<"\nBasic Salary          ::"<<sal.basic;
+	cout<<"\nDA                    ::"<<sal.da;
+	cout<<"\nHouse Rent            ::"<<sal.hr;
+	cout<<"\nMedical Checkup       ::"<<sal.mc;
+	cout<<"\nPA                    ::"<<sal.pa;
+	cal=sal.basic+sal.da+sal.hr+sal.mc-sal.pa;
+	cout<<"\nTotal Salary          ::"<<cal;
+			}
+		}
+	}
+	else
+	{
+	cout<<"\n\n Wrong Choice";
+	}
+	if(flag==0)
+	{
+	cout<<"\n\n Record not found";
+	}
+	file.close();
+}
+
+	getch();
+	break;
+
+case 5:
+	this->account_submenu();
+	break;
+default:
+	cout<<"\n\n\nWrong Choice";
+	getch();
+	break;
+}
+}
+}
+//====================FEE'S==================================================
+void account::fee_account()
+{
+account::fee fe;
+while(1)
+{
+clrscr();
+char ans='n',filename[25];
+int id=0,flag=0,numb=0,last=0,choice=0,cal=0;
+fstream file,file1,temp,temp1;
+int ch;
+cout<<"1.Fee Add New"<<endl<<"2.Fee Update"<<endl<<"3.Fee Delete"
+<<endl<<"4.Fee View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	student::stud st;
+	cout<<"1.This month press 1    ::"<<endl;
+	cout<<"2.Previous month press 2::"<<endl<<endl;
+	cout<<"Enter your choice::";
+	cin>>choice;
+	if(choice==1)
+	{
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with month number eg(s2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	cout<<"\nEnter Student Id               ::";
+	cin>>id;
+	file1.open("admission.dat",ios::in | ios::binary);
+	while(file1.read((char*)&st,sizeof(student::stud)))
+		{
+			if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+	file1.close();
+		if(flag==1)
+		{
+			temp.open(filename,ios::in |ios::binary);
+			temp.seekg(0,ios::beg);
+			while(temp.read((char*)&fe,sizeof(account::fee)))
+			{       if(id==fe.fee_id)
+				{
+				last=1;
+				}
+
+			}
+			temp.close();
+			if(last==0)
+			{
+			file.open(filename,ios::app | ios::binary);
+			fe.fee_id=id;
+			cout<<"\nEnter Tution Fees      ::";
+			cin>>fe.tuition;
+			cout<<"\nEnter Bus Service      ::";
+			cin>>fe.bus;
+			cout<<"\nEnter Magzine Fees     ::";
+			cin>>fe.magzine;
+			cout<<"\nEnter Misc Fees        ::";
+			cin>>fe.misc;
+			cout<<"\nEnter Tour Fees        ::";
+			cin>>fe.tour;
+			cout<<"\nEnter Sport Fees       ::";
+			cin>>fe.sport;
+			cal=fe.tuition+fe.bus+fe.magzine+fe.misc+fe.tour+fe.sport;
+			cout<<"\nTotal Fees             ::"<<cal;
+
+			file.write((char*)&fe,sizeof(account::fee));
+			}
+			else
+			{
+			cout<<"\n\n Already exist";
+			}
+		file.close();
+		}
+		else
+		{
+		cout<<"\n\nNo such id";
+		}
+	}
+	else if(choice==2)
+	{
+	cout<<"\nNote::-please write same name otherwise data will be lost\n";
+	cout<<"\nName of file should be year with month number eg(s2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::app | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{	cout<<"\nEnter Id                                      ::";
+	cin>>id;
+	file1.open("admission.dat",ios::in | ios::binary);
+	while(file1.read((char*)&st,sizeof(student::stud)))
+		{	if(id==st.student_id)
+			{
+			flag=1;
+			}
+		}
+	file1.close();
+		if(flag==1)
+		{
+			temp.open(filename,ios::in |ios::binary);
+			temp.seekg(0,ios::beg);
+			while(temp.read((char*)&fe,sizeof(account::fee)))
+			{       if(id==fe.fee_id)
+				{
+				last=1;
+				}
+
+			}
+			temp.close();
+			if(last==0)
+			{
+			fe.fee_id=id;
+			cout<<"\nEnter Tution Fees      ::";
+			cin>>fe.tuition;
+			cout<<"\nEnter Bus Service      ::";
+			cin>>fe.bus;
+			cout<<"\nEnter Magzine Fees     ::";
+			cin>>fe.magzine;
+			cout<<"\nEnter Misc Fees        ::";
+			cin>>fe.misc;
+			cout<<"\nEnter Tour Fees        ::";
+			cin>>fe.tour;
+			cout<<"\nEnter Sport Fees       ::";
+			cin>>fe.sport;
+			cal=fe.tuition+fe.bus+fe.magzine+fe.misc+fe.tour+fe.sport;
+			cout<<"\nTotal Fees             ::"<<cal;
+
+			file.write((char*)&fe,sizeof(account::fee));
+			}
+			else
+			{
+			cout<<"\n\n Already exist";
+			}
+		file.close();
+		}
+		else
+		{
+		cout<<"\n\nNo such id";
+		}
+}
+	}
+	else
+	{
+	cout<<"\n\n Wrong choice";
+	}
+	getch();
+	break;
+case 2:
+	clrscr();
+	cout<<"\nName of file should be year with month number eg(s2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{
+	cout<<"\nEnter the Student Id ::";
+	cin>>id;
+	while(file.read((char*)&fe,sizeof(account::fee)))
+		{
+			if(id==fe.fee_id)
+			{
+			flag=1;
+	cout<<"\n\n";
+	cout<<"\n1.Student Id       ::"<<fe.fee_id;
+	cout<<"\n2.Tution Fees      ::"<<fe.tuition;
+	cout<<"\n3.Bus Service      ::"<<fe.bus;
+	cout<<"\n4.Magzine Fees     ::"<<fe.magzine;
+	cout<<"\n5.Misc Fees        ::"<<fe.misc;
+	cout<<"\n6.Tour Fees        ::"<<fe.tour;
+	cout<<"\n7.Sport Fees       ::"<<fe.sport;
+	cal=fe.tuition+fe.bus+fe.magzine+fe.misc+fe.tour+fe.sport;
+	cout<<"\nTotal Fees         ::"<<cal;
+				do
+				{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"New Tuition Fees          ::";
+		cin>>fe.tuition;
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Bus Fees              ::";
+		cin>>fe.bus;
+		}
+		else if(numb==4)
+		{
+		cout<<endl<<"New Magzine Fees          ::";
+		cin>>fe.magzine;
+		}
+		else if(numb==5)
+		{
+		cout<<endl<<"New Misc Fees             ::";
+		cin>>fe.misc;
+		}
+		else if(numb==6)
+		{
+		cout<<endl<<"New Tour Fees             ::";
+		cin>>fe.tour;
+		}
+		else if(numb==7)
+		{
+		cout<<endl<<"New Sport Fees            ::";
+		cin>>fe.sport;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+			    }while(ans=='y');
+		temp.write((char*)&fe,sizeof(account::fee));
+			 }
+			 else
+			 {
+		 temp.write((char*)&fe,sizeof(account::fee));
+			 }
+		}
+	file.close();
+	temp.close();
+	if(flag==0)
+	{
+	cout<<"\n\nRecord not found";
+	}
+	else
+	{
+	file.open(filename,ios::out | ios::binary);
+	temp.open("temp.dat",ios::in | ios::binary);
+	temp.seekg(0,ios::beg);
+		while(temp.read((char*)&fe,sizeof(account::fee)))
+		{
+		file.write((char*)&fe,sizeof(account::fee));
+		}
+	file.close();
+	temp.close();
+	remove("temp.dat");
+	}
+}
+	getch();
+	break;
+case 3:
+	clrscr();
+	cout<<"\nName of file should be year with month number eg(s2010_1.dat) for your";
+	cout<<"\nconv]inience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{
+	cout<<"\nEnter the Student Id ::";
+	cin>>id;
+	while(file.read((char*)&fe,sizeof(account::fee)))
+		{
+			if(id==fe.fee_id)
+			{
+			flag=1;
+			cout<<"\nRecord deleted";
+			}
+			else
+			{
+			temp.write((char*)&fe,sizeof(account::fee));
+			}
+		  }
+	file.close();
+	temp.close();
+	if(flag==0)
+	{
+	cout<<"\n\nRecord not found";
+	}
+	else
+	{
+	file.open(filename,ios::out | ios::binary);
+	temp.open("temp.dat",ios::in | ios::binary);
+	temp.seekg(0,ios::beg);
+		while(temp.read((char*)&fe,sizeof(account::fee)))
+		{
+		file.write((char*)&fe,sizeof(account::fee));
+		}
+	file.close();
+	temp.close();
+	remove("temp.dat");
+	}
+}
+	getch();
+	break;
+
+case 4:
+	clrscr();
+	cout<<"\nName of file should be year with month number eg(s2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file ypu want to see::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+if(!file)
+{
+cout<<"\n\n\Sorry Wrong name mentioned not available";
+}
+else
+{
+	cout<<"\nEnter the Student id ::";
+	cin>>id;
+		while(file.read((char*)&fe,sizeof(account::fee)))
+		{
+			if(id==fe.fee_id)
+			{
+			flag=1;
+	cout<<"\n\n";
+	cout<<"\nStudent Id       ::"<<fe.fee_id;
+	cout<<"\nTution Fees      ::"<<fe.tuition;
+	cout<<"\nBus Service      ::"<<fe.bus;
+	cout<<"\nMagzine Fees     ::"<<fe.magzine;
+	cout<<"\nMisc Fees        ::"<<fe.misc;
+	cout<<"\nTour Fees        ::"<<fe.tour;
+	cout<<"\nSport Fees       ::"<<fe.sport;
+	cal=fe.tuition+fe.bus+fe.magzine+fe.misc+fe.tour+fe.sport;
+	cout<<"\nTotal Fees       ::"<<cal;
+			}
+		}
+	if(flag==0)
+	{
+	cout<<"\n\n Record not found";
+	}
+	file.close();
+}
+	getch();
+	break;
+case 5:
+	this->account_submenu();
+	break;
+default:
+	cout<<"\n\n\nWrong Choice";
+	getch();
+	break;
+}
+}
+
+}
+//====================FINE===========================================
+void account::fine_account()
+{
+account::fine fi;
+while(1)
+{
+clrscr();
+char ans='n';
+int numb=0,id=0,flag=0;
+fstream file,file1,temp;
+int ch;
+cout<<"1.Fine Add New"<<endl<<"2.Fine Update"<<endl<<"3.Fine Delete"
+<<endl<<"4.Fine View"<<endl<<"5.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	student::stud st;
+	cout<<"\nEnter the Student id                 ::" ;
+	cin>>id;
+	file.open("admission.dat",ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&st,sizeof(student::stud)))
+	{
+		if(id==st.student_id)
+		{
+		flag=1;
+		}
+	}
+	file.close();
+	if(flag==1)
+	{
+	file.open("fines.dat",ios::app | ios::binary);
+	fi.fine_id=id;
+	cout<<"\nEnter type of fine(late,lost,lib,etc)::";
+	gets(fi.type);
+	cout<<"\nEnter total fine                     ::";
+	cin>>fi.fine;
+	file.write((char*)&fi,sizeof(account::fine));
+	file.close();
+	}
+	else
+	{
+	cout<<"\n\n\n NO such id";
+	getch();
+	}
+	break;
+case 2:
+	clrscr();
+	file.open("fines.dat", ios::in | ios::binary);
+	file1.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	cout<<"Enter the Student id      ::";
+	cin>>id;
+	while(file.read((char*)&fi,sizeof(account::fine)))
+	{
+		if(id==fi.fine_id)
+		{
+		flag=1;
+	cout<<"\n1.Student Id   ::"<<fi.fine_id;
+	cout<<"\n2.Type of Fine ::"<<fi.type;
+	cout<<"\n3.Total Fine   ::"<<fi.fine;
+		do
+		{
+		cout<<"\n\nEnter the number written in front feild ::";
+		cin>>numb;
+		if(numb==1)
+		{
+		cout<<endl<<"Sorry It can't be changed  ::";
+		}
+		else if(numb==2)
+		{
+		cout<<endl<<"New Fine Type(e.g late,lib)::";
+		gets(fi.type);
+		}
+		else if(numb==3)
+		{
+		cout<<endl<<"New Total fine            ::";
+		cin>>fi.fine;
+		}
+		else
+		{
+		cout<<"\n\nWrong Number choice";
+		}
+		cout<<"\n\nWant to change any other(y|n)::";
+		ans=getche();
+		}while(ans=='y');
+		file1.write((char*)&fi,sizeof(account::fine));
+		}
+		else
+		{
+		file1.write((char*)&fi,sizeof(account::fine));
+		}
+	 }
+	file.close();
+	file1.close();
+	if(flag==0)
+	{
+	cout<<"Record not found";
+	getch();
+	}
+	else
+	{
+	file.open("temp.dat",ios::in | ios::binary);
+	file1.open("fines.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&fi,sizeof(account::fine)))
+	{
+	file1.write((char*)&fi,sizeof(account::fine));
+	}
+	file.close();
+	file1.close();
+	remove("temp.dat");
+	}
+	break;
+case 3:
+	clrscr();
+	cout<<"Enter the Student id                   ::" ;
+	cin>>id;
+	file.open("fines.dat",ios::in | ios::binary);
+	temp.open("temp.dat",ios::out | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&fi,sizeof(account::fine)))
+	{
+		if(id==fi.fine_id)
+		{
+		flag=1;
+		cout<<"\n\n Record deleted";
+		}
+		else
+		{
+		temp.write((char*)&fi,sizeof(account::fine));
+		}
+	}
+	file.close();
+	temp.close();
+	if(flag==0)
+	{
+	cout<<"\n\n\nRecord not found";
+	}
+	else
+	{
+	file.open("fines.dat",ios::out | ios::binary);
+	temp.open("temp.dat",ios::in | ios::binary);
+	temp.seekg(0,ios::beg);
+		while(temp.read((char*)&fi,sizeof(account::fine)))
+		{
+		file.write((char*)&fi,sizeof(account::fine));
+		}
+	file.close();
+	temp.close();
+	remove("temp.dat");
+	}
+	getch();
+	break;
+case 4:
+	clrscr();
+	cout<<"Enter the Student id                   ::" ;
+	cin>>id;
+	file.open("fines.dat",ios::in | ios::binary);
+	file.seekg(0,ios::beg);
+	while(file.read((char*)&fi,sizeof(account::fine)))
+	{
+		if(id==fi.fine_id)
+		{
+		flag=1;
+	cout<<"\nStudent Id   ::"<<fi.fine_id;
+	cout<<"\nType of Fine ::"<<fi.type;
+	cout<<"\nTotal Fine   ::"<<fi.fine;
+		getch();
+		}
+	}
+	file.close();
+	if(flag==0)
+	{
+	cout<<"\n\n\nRecord not found";
+	getch();
+	}
+	break;
+case 5:
+	this->account_submenu();
+	break;
+default:
+	cout<<"\n\n\nWrong Choice";
+	getch();
+	break;
+}
+}
+}
+//====================REVENUE================================================
+void account::revenue_account()
+{
+while(1)
+{
+clrscr();
+char filename[25];
+int cal=0;
+fstream file,file1,temp;
+int ch;
+cout<<"1.Total Salary Paid"<<endl<<"2.Total Fee received"<<endl<<"3.Total Fine Received"
+<<endl<<"4.Sub Main menu";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+	clrscr();
+	account::salary sal;
+	cout<<"\nName of file should be year with month number eg(f2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+		if(!file)
+		{
+		cout<<"\n\n\Sorry Wrong name mentioned not available";
+		}
+		else
+		{
+		while(file.read((char*)&sal,sizeof(account::salary)))
+			{
+			cal=cal+sal.basic+sal.hr+sal.mc-sal.pa;
+			}
+		cout<<"\n So the total Salary paid in this month is::";
+		cout<<cal;
+		file.close();
+		}
+	getch();
+	break;
+case 2:
+	clrscr();
+	account::fee fe;
+	cout<<"\nName of file should be year with month number eg(s2010_1.dat) for your";
+	cout<<"\nconvinience";
+	cout<<"\n\n\nEnter the name of the file::";
+	gets(filename);
+	file.open(filename,ios::nocreate | ios::in | ios::binary);
+		if(!file)
+		{
+		cout<<"\n\n\Sorry Wrong name mentioned not available";
+		}
+		else
+		{
+		while(file.read((char*)&fe,sizeof(account::fee)))
+			{
+			cal=cal+fe.tuition+fe.bus+fe.magzine+fe.misc+fe.tour+fe.sport;
+			}
+		cout<<"\n\n\n So the total Fee Received in this month is::";
+		cout<<cal;
+		file.close();
+		}
+	getch();
+	break;
+case 3:
+	clrscr();
+	account::fine fi;
+	file.open("fines.dat",ios::nocreate | ios::in | ios::binary);
+	while(file.read((char*)&fi,sizeof(account::fine)))
+	{
+		cal=cal+fi.fine;
+	}
+	cout<<"\n So the total fine received in this month is::";
+	cout<<cal;
+	file.close();
+	getch();
+	break;
+case 4:
+	this->account_submenu();
+	break;
+default:
+	cout<<"\n\n\nWrong Choice";
+	getch();
+	break;
+}
+}
+}
+//------------------------------------------------MENU CLASS FUNCTION--------
+//====================MENU TIMES=============================================
+void menu::times()
+{
+time=time+1;
+}
+//==================== MENU START============================================
+void menu::start()
+{
+int ch=0;
+while(1)
+{
+clrscr();
+cout<<"1.Student Record"<<endl<<"2.Examination"<<endl<<"3.Account office"
+<<endl<<"4.Miscellaneous  [sport,staff,teacher,etc]"<<endl<<"5.School History and Information"<<endl<<"6.Exit";
+cout<<"\nEnter your choice:: ";
+cin>>ch;
+switch(ch)
+{
+case 1:
+student dent;
+dent.student_submenu();
+break;
+case 2:
+exam exa;
+exa.mark_exam();
+break;
+case 3:
+account acc;
+acc.account_submenu();
+break;
+case 4:
+miscell mis;
+mis.misc_submenu();
+break;
+case 5:
+ifstream file;
+clrscr();
+const int max=80;
+char ch[80];
+file.open("history.dat",ios::in | ios::binary);
+while(file)
+{
+file.getline(ch,max);
+cout<<ch<<endl;
+}
+getch();
+break;
+case 6:
+exit(0);
+break;
+default:
+cout<<"\nWrong choice";
+getch();
+}
+}
+}
+//====================START PASSWORD=========================================
+void menu::password()
+{
+menu menu_obj1;
+char ch,id[25],pass[25];
+int i=0;
+clrscr();
+if(time==0)
+{
+menu_obj1.times();
+gotoxy(32,15);
+cout<<"Made By::-HARNEET SINGH SETHI";
+gotoxy(32,18);
+cout<<"DOEACC 'A' LEVEL ID::- 556419";
+gotoxy(32,23);
+cout<<"USER ID (Project):: ";
+gotoxy(32,25);
+cout<<"PASSWORD (Doeacc):: ";
+gotoxy(52,23);
+while (1)
+{
+	ch=getch();
+	if (ch == 8)    //is backspace '\b'
+	{
+	    if (i!=0)
+	    {
+	      id[--i]=0;
+	      putch('\b');
+	      putch(' ');
+	      putch('\b');
+	    }
+	}
+	if (isalpha(ch) || isdigit(ch))
+	{
+	    id[i]=tolower(ch);
+	    i++;
+	    putch('*');
+	}
+	if (ch==13)
+	{
+	  id[i]=NULL; //null term
+	     break;
+	}
+}
+i=0;
+ch=NULL;
+gotoxy(52,25);
+//cout<<"PASSWORD (Doeacc):: ";
+while (1)
+{
+	ch=getch();
+	if (ch == 8)    //is backspace '\b'
+	{
+	    if (i!=0)
+	    {
+	      pass[--i]=0;
+	      putch('\b');
+	      putch(' ');
+	      putch('\b');
+	    }
+	}
+	if (isalpha(ch) || isdigit(ch))
+	{
+	    pass[i]=tolower(ch);
+	    i++;
+	    putch('*');
+	}
+	if (ch==13)
+	{
+	  pass[i]=NULL; //null term
+	     break;
+	}
+}
+	if((strcmp(id,"project")==0)&&(strcmp(pass,"doeacc")==0))
+	{
+	menu_obj1.start();
+	}
+	else
+	{
+	cout<<"\n\n\n\t\t\t Wrong password";
+	getch();
+	exit(1);
+	}
+}
+else
+{
+menu_obj1.start();
+}
+}
+void main()
+{
+char id[25],pass[25],ch;
+menu m;
+m.password();
+}
+//%%%%%%%%%%%%%%%%%%%%NORMAL SUBMENUS========================================
+//%%%%%%%%%%%%%%%%%%%%NORMAL=================================================
+//%%%%%%%%%%%%%%%%%%%%NORMAL=================================================
+void student::student_submenu()
+{
+int ch=0;
+while(1)
+{
+clrscr();
+cout<<"1.Admission"<<endl<<"2.TC"<<endl<<"3.Search/View"<<endl<<"4.Main Menu"
+<<endl<<"5.Exit";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+this->admission();
+break;
+case 2:
+this->transfer();
+break;
+case 3:
+this->student_search();
+getch();
+break;
+case 4:
+main();
+break;
+case 5:
+exit(0);
+default:
+cout<<"\n\nWrong choice";
+getch();
+break;
+}
+}
+}
+void miscell::misc_submenu()
+{
+int ch=0;
+while(1)
+{
+clrscr();
+cout<<"1.Teachers"<<endl<<"2.Sports"<<endl<<"3.Staff detail"<<endl<<"4.Main Menu"
+<<endl<<"5.Exit";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+this->teacher_member();
+break;
+case 2:
+this->sport_member();
+break;
+case 3:
+this->staff_member();
+break;
+case 4:
+main();
+break;
+case 5:
+exit(0);
+break;
+default:
+cout<<"\n\nWrong choice";
+getch();
+break;
+}
+}
+}
+void account::account_submenu()
+{
+int ch=0;
+while(1)
+{
+clrscr();
+cout<<"1.Salary"<<endl<<"2.Fee"<<endl<<"3.Fine"
+<<endl<<"4.Total Revenue"<<endl<<"5.Main Menu"<<endl<<"6.Exit";
+cout<<"\n\nEnter your choice ::";
+cin>>ch;
+switch(ch)
+{
+case 1:
+this->salary_account();
+break;
+case 2:
+this->fee_account();
+break;
+case 3:
+this->fine_account();
+break;
+case 4:
+this->revenue_account();
+break;
+case 5:
+main();
+break;
+case 6:
+exit(0);
+break;
+default:
+cout<<"\n\nWrong choice";
+getch();
+break;
+}
+}
+}
